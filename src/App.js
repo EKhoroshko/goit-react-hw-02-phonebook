@@ -1,8 +1,8 @@
 import { Component } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import Input from './components/Input/Input';
 import CreateContactList from './components/PhoneList/PhoneList';
+import Filter from './components/Filter/Filter';
 
 class App extends Component {
   state = {
@@ -13,8 +13,6 @@ class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
   handleChange = e => {
@@ -22,43 +20,49 @@ class App extends Component {
     this.setState({ [name]: value });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const contacts = {
-      id: uuidv4(),
-      name: this.state.name,
-      number: this.state.number,
-    };
-    this.addContact(contacts);
-    this.reset();
-  };
-
-  reset = () => {
-    this.setState({ name: '', number: '' });
-  };
-
   addContact = contact => {
+    if (!this.checkContact(contact.name)) {
+      this.setState(({ contacts }) => ({
+        contacts: [contact, ...contacts],
+      }));
+    } else {
+      alert(`${contact.name} is alredy in contacts`);
+    }
+  };
+
+  checkContact = name => {
+    const { contacts } = this.state;
+    return contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase(),
+    );
+  };
+
+  filterContact = () => {
+    const { filter, contacts } = this.state;
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase()),
+    );
+  };
+
+  removeContact = id => {
     this.setState(({ contacts }) => ({
-      contacts: [contact, ...contacts],
+      contacts: contacts.filter(contact => contact.id !== id),
     }));
   };
 
   render() {
-    const { contacts } = this.state;
+    const { filter } = this.state;
 
     return (
       <div className="App">
-        <h2>Phonebook</h2>
-        <Input
-          title={'Name'}
-          phone={'Numder'}
-          name={this.state.name}
-          number={this.state.number}
-          addContact={this.addContact}
-          onSubmit={this.handleSubmit}
-          onChange={this.handleChange}
+        <h1 className="title">Phonebook</h1>
+        <Input title={'Name'} phone={'Number'} addContact={this.addContact} />
+        <Filter filter={filter} onChange={this.handleChange} />
+        <CreateContactList
+          filterContact={this.filterContact}
+          title={'Contacts'}
+          removeContact={this.removeContact}
         />
-        <CreateContactList contacts={contacts} title={'Contacts'} />
       </div>
     );
   }

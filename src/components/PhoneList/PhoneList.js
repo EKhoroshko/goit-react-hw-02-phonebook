@@ -1,20 +1,30 @@
+import PropTypes from 'prop-types';
 import css from '../PhoneList/PhoneList.module.css';
-import PhoneItem from './PhoneItem/PhoneItem';
+import PhoneItem from '../PhoneItem/PhoneItem';
 
-function createContactList({ title, contacts }) {
+function createContactList({ title, filterContact, removeContact }) {
   return (
-    <section>
-      <h2>{title}</h2>
+    <section className={css.block}>
+      <h2 className={css.title}>{title}</h2>
       <ul className={css.list}>
-        {contacts.map(contact => (
+        {filterContact().map(({ id, name, number }) => (
           <PhoneItem
-            key={contact.id}
-            name={contact.name}
-            number={contact.number}
+            key={id}
+            id={id}
+            name={name}
+            number={number}
+            removeContact={removeContact}
           />
         ))}
       </ul>
     </section>
   );
 }
+
+createContactList.propTypes = {
+  title: PropTypes.string,
+  filterContact: PropTypes.func,
+  removeContact: PropTypes.func,
+};
+
 export default createContactList;
