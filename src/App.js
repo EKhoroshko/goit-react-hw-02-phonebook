@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './App.css';
-import Input from './components/Input/Input';
+import Input from './components/FormSubmit/FormSubmit';
 import CreateContactList from './components/PhoneList/PhoneList';
 import Filter from './components/Filter/Filter';
 

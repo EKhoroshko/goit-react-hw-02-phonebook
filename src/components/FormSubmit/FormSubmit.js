@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import css from '../Input/Input.module.css';
+import css from '../FormSubmit/FormSubmit.module.css';
 
-class Input extends Component {
+class FormSubmit extends Component {
   state = {
     name: '',
     number: '',
@@ -70,10 +70,10 @@ class Input extends Component {
   }
 }
 
-Input.propType = {
+FormSubmit.propType = {
   title: PropTypes.string,
   addContact: PropTypes.func,
   phone: PropTypes.string,
 };
 
-export default Input;
+export default FormSubmit;
