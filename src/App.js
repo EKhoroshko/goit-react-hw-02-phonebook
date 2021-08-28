@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import './App.css';
-import Input from './components/FormSubmit/FormSubmit';
+import FormSubmit from './components/FormSubmit/FormSubmit';
 import CreateContactList from './components/PhoneList/PhoneList';
 import Filter from './components/Filter/Filter';
 
@@ -56,7 +56,11 @@ class App extends Component {
     return (
       <div className="App">
         <h1 className="title">Phonebook</h1>
-        <Input title={'Name'} phone={'Number'} addContact={this.addContact} />
+        <FormSubmit
+          title={'Name'}
+          phone={'Number'}
+          addContact={this.addContact}
+        />
         <Filter filter={filter} onChange={this.handleChange} />
         <CreateContactList
           filterContact={this.filterContact}
